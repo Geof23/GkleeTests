@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash -x
 #This is used to run the SesaBench suite
 
 function checkRes {
@@ -48,9 +48,9 @@ checkRes $? build-concrete
 sesa < bfs_atomic > bfs_atomic.new 2>&1
 checkRes $? sesa
 
-gklee --symbolic-config --max-sym-array-size=1024 bfs_atomic 2>&1 | tee $TESTHOME/$SECTION_$GKP_$CON
+gklee --symbolic-config --max-sym-array-size=1024 bfs_atomic 2>&1 | tee $TESTHOME/${SECTION}_${GKP}_$${CON}
 checkRes $?
-gklee --symbolic-config --race-prune --max-sym-array-size=1024 bfs_atomic.new 2>&1 | tee $TESTHOME/$SECTION_$SE_$CON
+gklee --symbolic-config --race-prune --max-sym-array-size=1024 bfs_atomic.new 2>&1 | tee $TESTHOME/${SECTION}_${SE}_$${CON}
 checkRes $?
 
 gklee-nvcc -o bfs_atomic main.cu -I ../../../include -DVARIANT=BFS_ATOMIC -D_SYM
@@ -59,14 +59,14 @@ checkRes $? build-sym
 sesa < bfs_atomic > bfs_atomic.new 2>&1
 checkRes $? sesa
 
-gklee --symbolic-config --max-sym-array-size=1024 --avoid-oob-check bfs_atomic 2>&1 | tee $TESTHOME/$SECTION_$GKP_$SYM
+gklee --symbolic-config --max-sym-array-size=1024 --avoid-oob-check bfs_atomic 2>&1 | tee $TESTHOME/${SECTION}_${GKP}_${SYM}
 checkRes $?
 
-gklee --symbolic-config --race-prune --max-sym-array-size=1024 --avoid-oob-check bfs_atomic.new 2>&1 | tee $TESTHOME/$SECTION_$SE_$SYM
+gklee --symbolic-config --race-prune --max-sym-array-size=1024 --avoid-oob-check bfs_atomic.new 2>&1 | tee $TESTHOME/${SECTION}_${SE}_${SYM}
 
 ##############
 SECTION=BFS_LS
-echo "Beginning $SECTION"
+echo "Beginning ${SECTION}"
 cd $TESTHOME/LoneStar/apps/bfs/BFS_LS
 checkRes $? cd
 
@@ -76,8 +76,8 @@ checkRes $? build-concrete
 sesa < bfs_ls > bfs_ls.new 2>&1
 checkRes $? sesa
 
-gklee --symbolic-config bfs_ls 2>&1 | tee $TESTHOME/$SECTION_$GKP_$CON
-gklee --symbolic-config --race-prune bfs_ls.new 2>&1 | tee $TESTHOME/$SECTION_$SE_$CON
+gklee --symbolic-config bfs_ls.new 2>&1 | tee $TESTHOME/${SECTION}_${GKP}_$${CON}
+gklee --symbolic-config --race-prune bfs_ls.new 2>&1 | tee $TESTHOME/${SECTION}_${SE}_$${CON}
 
 gklee-nvcc -o bfs_ls main.cu -I ../../../include -DVARIANT=BFS_LS -D_SYM
 checkRes $? build-sym
@@ -85,12 +85,12 @@ checkRes $? build-sym
 sesa < bfs_ls > bfs_ls.new 2>&1
 checkRes $? sesa
 
-gklee --symbolic-config --avoid-oob-check bfs_ls 2>&1 | tee $TESTHOME/$SECTION_$GKP_$SYM
-gklee --symbolic-config --race-prune --avoid-oob-check bfs_ls.new 2>&1 | tee $TESTHOME/$SECTION_$SE_$SYM
+gklee --symbolic-config --avoid-oob-check bfs_ls.new 2>&1 | tee $TESTHOME/${SECTION}_${GKP}_${SYM}
+gklee --symbolic-config --race-prune --avoid-oob-check bfs_ls.new 2>&1 | tee $TESTHOME/${SECTION}_${SE}_${SYM}
 
 #####################
 SECTION=BFS_WORKLISTA
-echo "Beginning $SECTION"
+echo "Beginning ${SECTION}"
 cd $TESTHOME/LoneStar/apps/bfs/BFS_WORKLISTA
 checkRes $? cd
 
@@ -100,8 +100,8 @@ checkRes $? build-concrete
 sesa < bfs_worklista > bfs_worklista.new 2>&1
 checkRes $? sesa
 
-gklee --symbolic-config --max-sym-array-size=1024 bfs_worklista 2>&1 | tee $TESTHOME/$SECTION_$GKP_$CON
-gklee --symbolic-config --race-prune --max-sym-array-size=1024 bfs_worklista.new 2>&1 | tee $TESTHOME/$SECTION_$SE_$CON
+gklee --symbolic-config --max-sym-array-size=1024 bfs_worklista.new 2>&1 | tee $TESTHOME/${SECTION}_${GKP}_$${CON}
+gklee --symbolic-config --race-prune --max-sym-array-size=1024 bfs_worklista.new 2>&1 | tee $TESTHOME/${SECTION}_${SE}_$${CON}
 
 gklee-nvcc -o bfs_worklista main.cu -I ../../../include -DVARIANT=BFS_WORKLISTA -D_SYM
 checkRes $? build-sym
@@ -109,12 +109,12 @@ checkRes $? build-sym
 sesa < bfs_worklista > bfs_worklista.new 2>&1
 checkRes $? sesa
 
-gklee --symbolic-config --max-sym-array-size=1024 --avoid-oob-check bfs_worklista 2>&1 | tee $TESTHOME/$SECTION_$GKP_$SYM
-gklee --symbolic-config --race-prune --max-sym-array-size=1024 --avoid-oob-check bfs_worklista.new 2>&1 | tee $TESTHOME/$SECTION_$SE_$SYM
+gklee --symbolic-config --max-sym-array-size=1024 --avoid-oob-check bfs_worklista.new 2>&1 | tee $TESTHOME/${SECTION}_${GKP}_${SYM}
+gklee --symbolic-config --race-prune --max-sym-array-size=1024 --avoid-oob-check bfs_worklista.new 2>&1 | tee $TESTHOME/${SECTION}_${SE}_${SYM}
 
 ##########################
 SECTION=BFS_WORKLISTW
-echo "Beginning $SECTION"
+echo "Beginning ${SECTION}"
 cd $TESTHOME/LoneStar/apps/bfs/BFS_WORKLISTW
 checkRes $? cd
 gklee-nvcc -o bfs_worklistw main.cu -I ../../../include -DVARIANT=BFS_WORKLISTW
@@ -123,8 +123,8 @@ checkRes $? buld-concrete
 sesa < bfs_worklistw > bfs_worklistw.new 2>&1
 checkRes $?
 
-gklee --symbolic-config --max-sym-array-size=1024 bfs_worklistw 2>&1 | tee  $TESTHOME/$SECTION_$GKP_$CON
-gklee --symbolic-config --race-prune --max-sym-array-size=1024 bfs_worklistw.new 2>&1 | tee  $TESTHOME/$SECTION_$SE_$CON
+gklee --symbolic-config --max-sym-array-size=1024 bfs_worklistw.new 2>&1 | tee  $TESTHOME/${SECTION}_${GKP}_$${CON}
+gklee --symbolic-config --race-prune --max-sym-array-size=1024 bfs_worklistw.new 2>&1 | tee  $TESTHOME/${SECTION}_${SE}_$${CON}
 
 gklee-nvcc -o bfs_worklistw main.cu -I ../../../include -DVARIANT=BFS_WORKLISTW -D_SYM
 checkRes $? build-symbolic
@@ -132,12 +132,12 @@ checkRes $? build-symbolic
 sesa < bfs_worklistw > bfs_worklistw.new 2>&1
 checkRes $?
 
-gklee --symbolic-config --max-sym-array-size=1024 --avoid-oob-check bfs_worklistw 2>&1 | tee $TESTHOME/$SECTION_$GKP_$SYM
-gklee --symbolic-config --race-prune --max-sym-array-size=1024 --avoid-oob-check bfs_worklistw.new 2>&1 | tee $TESTHOME/$SECTION_$SE_$SYM
+gklee --symbolic-config --max-sym-array-size=1024 --avoid-oob-check bfs_worklistw.new 2>&1 | tee $TESTHOME/${SECTION}_${GKP}_${SYM}
+gklee --symbolic-config --race-prune --max-sym-array-size=1024 --avoid-oob-check bfs_worklistw.new 2>&1 | tee $TESTHOME/${SECTION}_${SE}_${SYM}
 
 ###################
 SECTION=bh
-echo "Beginning $SECTION"
+echo "Beginning ${SECTION}"
 cd $TESTHOME/LoneStar/apps/bh
 checkRes $? cd 
 
@@ -147,8 +147,8 @@ checkRes $? build-concrete
 sesa < bh > bh.new 2>&1
 checkRes $? sesa
 
-gklee --symbolic-config bh 2>&1 | tee $TESTHOME/$SECTION_$GKP_$CON
-gklee --symbolic-config --race-prune bh.new 2>&1 | tee $TESTHOME/$SECTION_$SE_$CON
+gklee --symbolic-config bh.new 2>&1 | tee $TESTHOME/${SECTION}_${GKP}_$${CON}
+gklee --symbolic-config --race-prune bh.new 2>&1 | tee $TESTHOME/${SECTION}_${SE}_$${CON}
 
 gklee-nvcc -o bh main.cu -I ../../../include -D_SYM
 checkRes $? build-symbolic
@@ -156,12 +156,12 @@ checkRes $? build-symbolic
 sesa < bh > bh.new 2>&1 
 checkRes $? sesa
 
-gklee --symbolic-config --avoid-oob-check bh 2>&1 | tee $TESTHOME/$SECTION_$GKP_$SYM
-gklee --symbolic-config --race-prune --avoid-oob-check bh.new 2>&1 | tee $TESTHOME/$SECTION_$SE_$SYM
+gklee --symbolic-config --avoid-oob-check bh.new 2>&1 | tee $TESTHOME/${SECTION}_${GKP}_${SYM}
+gklee --symbolic-config --race-prune --avoid-oob-check bh.new 2>&1 | tee $TESTHOME/${SECTION}_${SE}_${SYM}
 
 ################
 SECTION=SSSP_WLN
-echo "Beginning $SECTION"
+echo "Beginning ${SECTION}"
 cd $TESTHOME/LoneStar/apps/sssp/SSSP_WLN
 checkRes $? cd 
 
@@ -171,8 +171,8 @@ checkRes $? build-concrete
 sesa < sssp_wln > sssp_wln.new 2>&1
 checkRes $? sesa
 
-gklee --symbolic-config sssp_wln 2>&1 | tee $TESTHOME/$SECTION_$GKP_$CON
-gklee --symbolic-config --race-prune sssp_wln.new 2>&1 | tee $TESTHOME/$SECTION_$SE_$CON
+gklee --symbolic-config sssp_wln.new 2>&1 | tee $TESTHOME/${SECTION}_${GKP}_$${CON}
+gklee --symbolic-config --race-prune sssp_wln.new 2>&1 | tee $TESTHOME/${SECTION}_${SE}_$${CON}
 
 gklee-nvcc -o sssp_wln main.cu -I ../../../include -DVARIANT=SSSP_WLN -D_SYM
 checkRes $? build-symbolic
@@ -180,12 +180,12 @@ checkRes $? build-symbolic
 sesa < sssp_wln > sssp_wln.new 2>&1
 checkRes $? sesa
 
-gklee --symbolic-config --avoid-oob-check sssp_wln 2>&1 | tee $TESTHOME/$SECTION_$GKP_$SYM
-gklee --symbolic-config --race-prune --avoid-oob-check sssp_wln.new 2>&1 | tee $TESTHOME/$SECTION_$SE_$SYM
+gklee --symbolic-config --avoid-oob-check sssp_wln.new 2>&1 | tee $TESTHOME/${SECTION}_${GKP}_${SYM}
+gklee --symbolic-config --race-prune --avoid-oob-check sssp_wln.new 2>&1 | tee $TESTHOME/${SECTION}_${SE}_${SYM}
 
 ####################
 SECTION=SSSP_LS
-echo "Beginning $SECTION"
+echo "Beginning ${SECTION}"
 cd $TESTHOME/LoneStar/apps/sssp/SSSP_LS
 checkRes $? cd 
 
@@ -195,8 +195,8 @@ checkRes $? build-concrete
 sesa < sssp_ls > sssp_ls.new 2>&1
 checkRes $? sesa
 
-gklee --symbolic-config sssp_ls 2>&1 | tee $TESTHOME/$SECTION_$GKP_$CON
-gklee --symbolic-config --race-prune sssp_ls.new 2>&1 | tee $TESTHOME/$SECTION_$SE_$CON
+gklee --symbolic-config sssp_ls.new 2>&1 | tee $TESTHOME/${SECTION}_${GKP}_$${CON}
+gklee --symbolic-config --race-prune sssp_ls.new 2>&1 | tee $TESTHOME/${SECTION}_${SE}_$${CON}
 
 gklee-nvcc -o sssp_ls main.cu -I ../../../include -DVARIANT=SSSP_LS -D_SYM
 checkRes $? build-symbolic
@@ -204,7 +204,7 @@ checkRes $? build-symbolic
 sesa < sssp_ls > sssp_ls.new 2>&1
 checkRes $? sesa
 
-gklee --symbolic-config --avoid-oob-check sssp_ls 2>&1 | tee $TESTHOME/$SECTION_$GKP_$SYM
-gklee --symbolic-config --race-prune --avoid-oob-check sssp_ls.new 2>&1 | tee $TESTHOME/$SECTION_$SE_$SYM
+gklee --symbolic-config --avoid-oob-check sssp_ls.new 2>&1 | tee $TESTHOME/${SECTION}_${GKP}_${SYM}
+gklee --symbolic-config --race-prune --avoid-oob-check sssp_ls.new 2>&1 | tee $TESTHOME/${SECTION}_${SE}_${SYM}
 
 

@@ -29,12 +29,12 @@ klee-l++ -o gpu_info.o gpu_info.cc
 klee-l++ -o file.o file.cc
 llvm-link -o spmv main.o convert_dataset.o mmio.o gpu_info.o file.o
 
-gklee --symbolic-config spmv 2>&1 | tee $TESTHOME/gklee_out_$SECTION
+gklee --symbolic-config spmv 2>&1 | tee $TESTHOME/gklee_out_${SECTION}
 
 ########################################
 
 SECTION=histo_final
-echo "Beginning $SECTION"
+echo "Beginning ${SECTION}"
 
 cd $TESTHOME/histo/histo_final
 
@@ -47,11 +47,11 @@ llvm-link -o histo histo_final.o histo_intermediates.o histo_main.o histo_presca
 
 #run:
 
-gklee --symbolic-config histo 2>&1 | tee $TESTHOME/gklee_out_$SECTION
+gklee --symbolic-config histo 2>&1 | tee $TESTHOME/gklee_out_${SECTION}
 
 ##########################
 SECTION=histo_prescan
-echo "Beginning $SECTION"
+echo "Beginning ${SECTION}"
 
 cd $TESTHOME/histo/histo_prescan
 
@@ -66,10 +66,10 @@ llvm-link -o histo.conc histo_final.o histo_intermediates.o histo_main.o histo_p
 llvm-link -o histo.sym histo_final.o histo_intermediates.o histo_main.o histo_prescan.o main.sym.o
 
 sesa -scev-aa < histo.conc > histo.conc.new 2>&1
-gklee --symbolic-config histo.conc.new 2>&1 $TESTHOME/gklee_out_$SECTION_conc
+gklee --symbolic-config histo.conc.new 2>&1 $TESTHOME/gklee_out_${SECTION}_conc
 
 sesa -scev-aa < histo.sym > histo.sym.new 2>&1
-gklee --symbolic-config histo.sym.new 2>&1 $TESTHOME/gklee_out_$SECTION_sym
+gklee --symbolic-config histo.sym.new 2>&1 $TESTHOME/gklee_out_${SECTION}_sym
 
 
 #./histo/histo_main/README
@@ -90,7 +90,7 @@ gklee --symbolic-config histo.sym.new 2>&1 $TESTHOME/gklee_out_$SECTION_sym
 
 ##################
 SECTION=mri_binning
-echo "Beginning $SECTION"
+echo "Beginning ${SECTION}"
 cd $TESTHOME/mri-gridding/mri_binning
 #./mri-gridding/mri_binning/README
 
@@ -101,7 +101,7 @@ gklee-nvcc GPU_kernels.cu -I$TESTHOME/../parboil/common/include -O3 -o GPU_kerne
 gklee-nvcc CUDA_interface.cu -I$TESTHOME/../parboil/common/include -O3 -c -o CUDA_interface.o -D_BINNING -D_SYM
 llvm-link -o mri-gridding main.o CUDA_interface.o
 
-gklee --symbolic-config mri-gridding 2>&1 | tee $TESTHOME/gklee_out_$SECTION
+gklee --symbolic-config mri-gridding 2>&1 | tee $TESTHOME/gklee_out_${SECTION}
 
 ########################
 # SECTION=mri_reorder
@@ -118,7 +118,7 @@ gklee --symbolic-config mri-gridding 2>&1 | tee $TESTHOME/gklee_out_$SECTION
 
 ######################
 SECTION=mri_gridding
-echo "Beginning $SECTION"
+echo "Beginning ${SECTION}"
 cd $TESTHOME/mri-gridding/mri_gridding
 #./mri-gridding/mri_gridding/README
 #Build mri-gridding:
@@ -128,12 +128,12 @@ gklee-nvcc CUDA_interface.cu -I$TESTHOME/../parboil/common/include -O3 -c -o CUD
 llvm-link -o mri-gridding CUDA_interface.o main.o
 
 #Run:
-gklee --symbolic-config mri-gridding 2>&1 | tee $TESTHOME/gklee_out_$SECTION
+gklee --symbolic-config mri-gridding 2>&1 | tee $TESTHOME/gklee_out_${SECTION}
 
 
 #####################
 SECTION=$TESTHOME/stencil
-echo "Beginning $SECTION"
+echo "Beginning ${SECTION}"
 cd $TESTHOME/stencil
 #./stencil/README
 #Build:
@@ -142,11 +142,11 @@ gklee-nvcc -I /home/peng/  -o stencil main.cu
 
 #Run:
 
-gklee --symbolic-config --max-time=7200 stencil.new 2>&1 | tee $TESTHOME/gklee_out_$SECTION
+gklee --symbolic-config --max-time=7200 stencil.new 2>&1 | tee $TESTHOME/gklee_out_${SECTION}
 
 ######################
 SECTION=bfs
-echo "Beginning $SECTION"
+echo "Beginning ${SECTION}"
 cd=$TESTHOME/bfs
 # ./bfs/README
 # Build bfs:
@@ -156,11 +156,11 @@ gklee-nvcc main.cu -I $TESTHOME/../parboil/common/include -O3 -Xptxas -dlcm=cg -
 #GKLEE_p running:
 
 sesa -scev-aa < main.o > main.new 2>&1
-gklee --symbolic-config --max-sym-array-size=2048 main.new 2>&1 | tee $TESTHOME/gklee_out_$SECTION
+gklee --symbolic-config --max-sym-array-size=2048 main.new 2>&1 | tee $TESTHOME/gklee_out_${SECTION}
 
 ######################
 SECTION=cutcp
-echo "Beginning $SECTION"
+echo "Beginning ${SECTION}"
 cd=$TESTHOME/cutcp
 ##  ./cutcp/README
 # # How to build cutcp:
