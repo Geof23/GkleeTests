@@ -1,10 +1,11 @@
 #!/bin/bash
-./clean.sh
-for D in `find . -type d -not -name "."`
+./clean.sh silent
+BASE=$(pwd)
+for D in `find -maxdepth 1 -path "./.git*" -prune -o -not -name "." -type "d" -print`
 do
     echo $D
     cd $D
     ../execute_test.sh *.cu
-    cd ..
+    cd $BASE
     echo 
 done

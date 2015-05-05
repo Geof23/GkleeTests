@@ -1,8 +1,13 @@
  #!/bin/bash
 
-echo "This will remove all files not under version control [git clean -fx], are you sure? [Y|n]"
+if [[ "$1" == "silent" ]]
+then
+    RES="Y"
+else
+    echo "This will remove all files not under version control [git clean -fx], are you sure? [Y|n]"
 
-read RES
+    read RES
+fi
 
 if [[ "$RES" == "Y" ]]
 then
