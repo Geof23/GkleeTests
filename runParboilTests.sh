@@ -13,7 +13,7 @@ echo "Setting up Parboil tests"
 cd SESABench
 tar -zxf ../pb2.5driver.tgz
 
-cd SESABench/Table-3-Parboil
+cd Table-3-Parboil
 
 TESTHOME=$(pwd)
 
