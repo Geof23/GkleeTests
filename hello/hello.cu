@@ -6,13 +6,17 @@
  
 #include <stdio.h>
  
-const int N = 16; 
-const int blocksize = 16; 
+const int N = 16;
+const int blocksize = 1; //16; 
  
 __global__ 
 void hello(char *a, int *b) 
 {
-  a[threadIdx.x] += b[threadIdx.x];
+   if( threadIdx.x == 0 ){
+     a[ 0 ] += b[ 0 ];
+   }else{
+     a[threadIdx.x] = b[threadIdx.x]; 
+   }
 }
  
 int main()

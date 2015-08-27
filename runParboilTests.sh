@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash -x
 
 function checkRes {
    if [ "$1" != 0 ]
